@@ -42,6 +42,16 @@ public class RegisterValidatorTest {
     }
 
     @Test
+    void minimumLengthFirstNameTest() {
+        assertTrue(validator.isValidFirstName("Ha"));
+    }
+
+    @Test
+    void maximumLengthFirstNameTest() {
+        assertTrue(validator.isValidFirstName("abcdefghijklmnopqrst"));
+    }
+
+    @Test
     void longFirstNameTest() {
         assertFalse(validator.isValidFirstName("abcdefghijklmnopqrstu"));
     }
@@ -51,11 +61,16 @@ public class RegisterValidatorTest {
         assertFalse(validator.isValidFirstName("Hasan123"));
     }
 
+    @Test
+    void firstNameWithSpaceTest() {
+        assertFalse(validator.isValidFirstName("Hasan Ali"));
+    }
+
     // LAST NAME TESTS
 
     @Test
     void validLastNameTest() {
-        assertTrue(validator.isValidLastName("Yilmaz"));
+        assertTrue(validator.isValidLastName("Yasar"));
     }
 
     @Test
@@ -64,8 +79,18 @@ public class RegisterValidatorTest {
     }
 
     @Test
+    void nullLastNameTest() {
+        assertFalse(validator.isValidLastName(null));
+    }
+
+    @Test
     void shortLastNameTest() {
         assertFalse(validator.isValidLastName("Y"));
+    }
+
+    @Test
+    void minimumLengthLastNameTest() {
+        assertTrue(validator.isValidLastName("Ya"));
     }
 
     @Test
@@ -75,7 +100,7 @@ public class RegisterValidatorTest {
 
     @Test
     void lastNameWithNumberTest() {
-        assertFalse(validator.isValidLastName("Yilmaz1"));
+        assertFalse(validator.isValidLastName("Yasar1"));
     }
 
     // EMAIL TESTS
@@ -83,6 +108,11 @@ public class RegisterValidatorTest {
     @Test
     void validEmailTest() {
         assertTrue(validator.isValidEmail("test@gmail.com"));
+    }
+
+    @Test
+    void validEmailWithDotTest() {
+        assertTrue(validator.isValidEmail("hasan.yasar@gmail.com"));
     }
 
     @Test
@@ -96,6 +126,11 @@ public class RegisterValidatorTest {
     }
 
     @Test
+    void invalidEmailWithoutExtensionTest() {
+        assertFalse(validator.isValidEmail("test@gmail"));
+    }
+
+    @Test
     void emptyEmailTest() {
         assertFalse(validator.isValidEmail(""));
     }
@@ -103,45 +138,6 @@ public class RegisterValidatorTest {
     @Test
     void nullEmailTest() {
         assertFalse(validator.isValidEmail(null));
-    }
-
-    // PASSWORD TESTS
-
-    @Test
-    void validPasswordTest() {
-        assertTrue(validator.isValidPassword("password123"));
-    }
-
-    @Test
-    void shortPasswordTest() {
-        assertFalse(validator.isValidPassword("123"));
-    }
-
-    @Test
-    void emptyPasswordTest() {
-        assertFalse(validator.isValidPassword(""));
-    }
-
-    @Test
-    void nullPasswordTest() {
-        assertFalse(validator.isValidPassword(null));
-    }
-
-    // PASSWORD MATCH TESTS
-
-    @Test
-    void matchingPasswordsTest() {
-        assertTrue(validator.passwordsMatch("12345678", "12345678"));
-    }
-
-    @Test
-    void nonMatchingPasswordsTest() {
-        assertFalse(validator.passwordsMatch("12345678", "87654321"));
-    }
-
-    @Test
-    void nullPasswordMatchTest() {
-        assertFalse(validator.passwordsMatch(null, "12345678"));
     }
 
     // DATE OF BIRTH TESTS
@@ -179,5 +175,89 @@ public class RegisterValidatorTest {
     @Test
     void invalidYearDateTest() {
         assertFalse(validator.isValidDateOfBirth("01/01/1800"));
+    }
+
+    @Test
+    void boundaryMinimumYearDateTest() {
+        assertTrue(validator.isValidDateOfBirth("01/01/1900"));
+    }
+
+    @Test
+    void boundaryMaximumYearDateTest() {
+        assertTrue(validator.isValidDateOfBirth("01/01/2026"));
+    }
+
+    // PASSWORD TESTS
+
+    @Test
+    void validPasswordTest() {
+        assertTrue(validator.isValidPassword("Password123"));
+    }
+
+    @Test
+    void shortPasswordTest() {
+        assertFalse(validator.isValidPassword("Pas12"));
+    }
+
+    @Test
+    void longPasswordTest() {
+        assertFalse(validator.isValidPassword("Password123456789012345"));
+    }
+
+    @Test
+    void emptyPasswordTest() {
+        assertFalse(validator.isValidPassword(""));
+    }
+
+    @Test
+    void nullPasswordTest() {
+        assertFalse(validator.isValidPassword(null));
+    }
+
+    @Test
+    void passwordWithoutUppercaseTest() {
+        assertFalse(validator.isValidPassword("password123"));
+    }
+
+    @Test
+    void passwordWithoutLowercaseTest() {
+        assertFalse(validator.isValidPassword("PASSWORD123"));
+    }
+
+    @Test
+    void passwordWithoutNumberTest() {
+        assertFalse(validator.isValidPassword("Password"));
+    }
+
+    @Test
+    void minimumLengthPasswordTest() {
+        assertTrue(validator.isValidPassword("Pass1234"));
+    }
+
+    // PASSWORD MATCH TESTS
+
+    @Test
+    void matchingPasswordsTest() {
+        assertTrue(validator.passwordsMatch("Password123", "Password123"));
+    }
+
+    @Test
+    void nonMatchingPasswordsTest() {
+        assertFalse(validator.passwordsMatch("Password123", "Password456"));
+    }
+
+    @Test
+    void nullPasswordMatchTest() {
+        assertFalse(validator.passwordsMatch(null, "Password123"));
+    }
+
+    @Test
+    void nullConfirmPasswordMatchTest() {
+        assertFalse(validator.passwordsMatch("Password123", null));
+    }
+
+    @Test
+    void bothNullPasswordMatchTest() {
+        assertFalse(validator.passwordsMatch(null, null));
     }
 }

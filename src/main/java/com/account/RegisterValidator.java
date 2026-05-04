@@ -40,10 +40,25 @@ public class RegisterValidator {
     public boolean isValidPassword(String password) {
 
         if (password == null || password.trim().isEmpty()) {
+
             return false;
+
         }
 
-        return password.length() >= 8 && password.length() <= 20;
+        if (password.length() < 8 || password.length() > 20) {
+
+            return false;
+
+        }
+
+        boolean hasUpperCase = password.matches(".*[A-Z].*");
+
+        boolean hasLowerCase = password.matches(".*[a-z].*");
+
+        boolean hasNumber = password.matches(".*[0-9].*");
+
+        return hasUpperCase && hasLowerCase && hasNumber;
+
     }
 
     public boolean passwordsMatch(String password, String confirmPassword) {
