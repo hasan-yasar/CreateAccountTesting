@@ -91,3 +91,6 @@ To run the tests, use this command:
 
 ```bash
 mvn test
+
+## Extra Note
+This project is created for software testing assignment.
